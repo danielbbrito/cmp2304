@@ -1,0 +1,19 @@
+Algumas informações sobre o conteúdo do diretório .git, chamado de repositório:
+
+HEAD -> arquivo que aponta para a referência atual que o projeto está trabalhando
+
+branches -> diretório que contém as ramificações do repositório git local
+
+config -> arquivo que contém as configurações do repositório, possui algumas configurações padrão e outras definidas pelo usuário como seu nome e e-mail (apesar de que geralmente essas duas configurações são colocadas em um outro arquivo config chamado ~/.gitconfig em escopo global, mas podem ser colocadas aqui também)
+
+description -> arquivo que contém breve descrição do repositório
+
+hooks -> diretório que contém scripts que o git roda quando ocorrem eventos específicos como a criação de um commit ou recebimento de um push
+
+info -> diretório que contém um arquivo chamado exclude, que especifica padrões de arquivos e diretórios que devem ser ignorados pelo git. Funciona como o .gitignore, mas com um escopo apenas local, ou seja, ele não é compartilhado com outros desenvolvedores do mesmo projeto
+
+objects -> diretório que contém objetos do repositório como blobs (arquivos), árvores (diretórios) ou commits
+
+refs -> diretório que contém referência para commits específicos. Podem ser ramificações, tags ou HEAD
+
+index -> arquivo que representa a staging area do git, onde alterações que serão incluídas no próximo commit serão armazenadas
