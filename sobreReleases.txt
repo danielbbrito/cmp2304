@@ -1,0 +1,7 @@
+Usando o comando git tag podemos marcar versões específicas do projeto como releases
+
+existem dois tipos: leve e anotada. 
+
+Criamos uma tag leve com git tag <nome da tag>
+Criamos uma tag anotada com git tag -a <nome da tag> -m "comentario"
+Criamos uma tag anotada de um commit específico com git tag -a <nome da tag> <checksum do commit> -m "comentario"
