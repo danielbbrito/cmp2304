@@ -1,0 +1,85 @@
+
+services:
+  db:
+    container_name: postgres
+    image: postgres:alpine # Usamos a imagem oficial e leve do Postgres.
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "${PGADMIN_PORT}:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+ 
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    expose:
+      - "3000"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - HOST=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true  
+      - WATCHPACK_POLLING=true     
+    expose:
+      - "5173"
+    networks:
+      - app-network
+
+
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+    ports:
+      - "${NGINX_PORT}:80"
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge
+
+
+volumes:
+  pgdata:
+  pgadmin-data:
