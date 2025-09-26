@@ -1,0 +1,43 @@
+h1 {
+    color: green;
+}
+
+h1 em { /* an em inside a h1 */ 
+    color: blue;
+}
+
+h2 + p { /* a p that comes directly after a h2 */
+    color: red;
+    font-size: 200%;
+}
+
+.link:hover {
+    text-decoration: none;
+}
+.link:active {
+    color: red;
+}
+
+.rotate {
+    background-color: blue;
+    color: white;
+    width: 100px;
+
+    margin-top: 15%;
+
+    transform:rotate(90deg)
+}
+
+@media (width <= 30em) {
+    body {
+        background-color: black;
+    }
+
+    h2 {
+        color:white;
+    }
+
+    h1 {
+        color: red;
+    }
+}

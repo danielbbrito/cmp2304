@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="runaway.css">
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // var runawayDiv = document.querySelector(".runaway");
+            
+            // var top = getComputedStyle(runawayDiv).top
+            // var left = getComputedStyle(runawayDiv).left
+            
+            // var vpwidth = window.innerWidth;
+            // var vpheight = window.innerHeight;
+            // var center = [vpwidth / 2, vpheight / 2];
+            // var radius = vpwidth / 4;
+
+            // for (var i = center[0] - radius; i <= center[0] + radius; i++) {
+            //     for (var j = center[1] - radius; j <= center[1] + radius; j++) {
+            //         if ((i - center[0]) ** 2 + (j - center[1]) ** 2 === radius ** 2) {
+            //             console.log(i);
+            //             console.log(j);
+            //             runawayDiv.style.top = `${vpheight - j}px`;
+            //             runawayDiv.style.left = `${i}px` 
+            //         }
+            //     }
+            // }
+
+            
+        })
+
+        function getDivDimensions() {
+            var runaway = document.querySelector(".runaway");
+            var positions = runaway.getBoundingClientRect();
+            var centerX = (positions.left + positions.right) / 2;
+            var centerY = (positions.top + positions.bottom) / 2
+            var radius = centerX - positions.left
+
+            return [centerX, centerY, radius]
+        }
+
+        function shiftDivPosition(mouseCoords, divCoords) {
+            
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            
+
+            document.addEventListener("mousemove", (event) => {
+                const mouseX = event.clientX;
+                const mouseY = event.clientY;
+
+                console.log(mouseX);
+                console.log(mouseY);
+
+                var runawayDiv = getDivDimensions();
+
+                var distanceToDiv = Math.sqrt((mouseX - runawayDiv[0]) ** 2 + (mouseY - runawayDiv[1]) ** 2);
+
+                var divMoves = distanceToDiv <= runawayDiv[2] ? true : false;
+
+                if (divMoves) {
+                    shiftDivPosition([mouseX, mouseY], runawayDiv)
+                }
+
+            })
+        })
+
+    </script>
+</head>
+<body>
+    <div class="runaway"></div>
+</body>
+</html>
