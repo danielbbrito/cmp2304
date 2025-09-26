@@ -1,0 +1,10 @@
+Redes em docker permitem containeres comunicarem entre si e comunicarem com o mundo externo
+
+Comandos:
+
+docker network create <nome_rede> -> Cria nova Redes
+docker network ls -> Lista redes existentes
+docker network inspect <nome_rede> -> Traz detalhes de uma rede especifica
+docker network rm <nome_rede> -> Remove uma rede
+docker network connect <rede> <container> -> Conecta um container a uma rede
+docker network disconnect <rede> <container> -> Desconecta um container de uma rede

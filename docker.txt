@@ -1,0 +1,15 @@
+Objetos docker:
+Imagens: modelos imutáveis usados para criar containeres. Contém código fonte,
+bibliotecas, dependências e configurações necessárias para executar uma aplicação.
+São criadas a partir de um Dockerfile e podem ser compartilhadas em registries, como DockerHub
+
+Contêiner: instância executável da imagem. É um processo em execução localizado em uma parte restrita da memória, isolada dos demais processos.
+Podem ser criados, iniciados, reiniciados, parados e removidos a partir da CLI Docker (Docker API) conforme a necessidade.
+
+Volumes: usados para armazenar dados de forma persistente fora do ciclo de vida dos contêineres. Garantem que os dados sejam preservados
+mesmo que o contêiner seja removido.
+
+Networks: gerenciam a comunicação entre cointêneres e entre contêineres e o mundo externo. Podem ser configuradas para
+isolar, conectar ou compartilhar redes entre contêineres.
+
+Registries: repositórios onde as imagens são armazenadas. Podem ser públicos ou privados.

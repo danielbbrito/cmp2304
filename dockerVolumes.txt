@@ -1,0 +1,9 @@
+Volumes docker servem para armazenar dados de forma persistente fora do ciclo de vida de um container. Ou seja, caso um container seja deletado, dados associados a ele ficam
+persistidos no volume, para que possam ser usados posteriormente
+
+Comandos:
+
+docker volume create <nome> -> Cria um volume com nome <nome>
+docker volume ls -> Lista todos os volumes do sistema
+docker volume inspect <nome> -> Mostra detalhes sobre um volume especifico
+docker volume rm <nome> -> Remove o volume <nome>
