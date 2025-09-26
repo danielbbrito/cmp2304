@@ -13,8 +13,8 @@
             // var top = getComputedStyle(runawayDiv).top
             // var left = getComputedStyle(runawayDiv).left
             
-            // var vpwidth = window.innerWidth;
-            // var vpheight = window.innerHeight;
+            //var vpwidth = window.innerWidth;
+            //var vpheight = window.innerHeight;
             // var center = [vpwidth / 2, vpheight / 2];
             // var radius = vpwidth / 4;
 
@@ -23,7 +23,7 @@
             //         if ((i - center[0]) ** 2 + (j - center[1]) ** 2 === radius ** 2) {
             //             console.log(i);
             //             console.log(j);
-            //             runawayDiv.style.top = `${vpheight - j}px`;
+            //             runawayDiv.style.top = `${j}px`;
             //             runawayDiv.style.left = `${i}px` 
             //         }
             //     }
@@ -36,34 +36,97 @@
             var runaway = document.querySelector(".runaway");
             var positions = runaway.getBoundingClientRect();
             var centerX = (positions.left + positions.right) / 2;
-            var centerY = (positions.top + positions.bottom) / 2
-            var radius = centerX - positions.left
-
-            return [centerX, centerY, radius]
+            var centerY = (positions.top + positions.bottom) / 2;
+            var radius = centerX - positions.left;
+     
+            return [centerX, centerY, radius];
         }
 
         function shiftDivPosition(mouseCoords, divCoords) {
+            const vpwidth = window.innerWidth;
+            const vpheight = window.innerHeight;
             
+            // Find the line coefficients
+            const a = (mouseCoords[1] - divCoords[1]) / (mouseCoords[0] - divCoords[0]);
+            const b = mouseCoords[1] - a * mouseCoords[0];
+
+            const runawayDiv = document.querySelector(".runaway")
+            const currentX = parseInt(getComputedStyle(runawayDiv).left);
+            const currentY = parseInt(getComputedStyle(runawayDiv).top);
+
+            let x_shift;
+            if (mouseCoords[0] <= divCoords[0]) {
+                x_shift =  +25;
+            } else {
+                x_shift = -25;
+            }
+            let y_shift = a * x_shift + b;
+
+            let x = currentX + x_shift;
+            let y = currentY + y_shift
+
+            // divCoords[2] is the radius
+            if (x < 0) {
+                x = 0;
+            } else if (x > vpwidth - divCoords[2] * 2) {
+                x = vpwidth - divCoords[2] * 2;
+            }
+
+            if (y < 0) {
+                y = 0;
+            } else if (y > vpheight - divCoords[2] * 2) {
+                y = vpheight - divCoords[2] * 2;
+            }
+
+  
+            // console.log(`Old coords: (${divCoords[0]}, ${divCoords[1]}). New coords: (${x}, ${y}).`)
+            runawayDiv.style.left = `${x}px`;
+            runawayDiv.style.top = `${y}px`;
         }
 
         document.addEventListener("DOMContentLoaded", () => {
             
-
+            var i = 0;
+            const taunts = [
+            "Você nunca vai conseguir!",
+            "Skill issue",
+            "Isso foi patético.",
+            "Tá tentando ou só clicando aleatoriamente?",
+            "Talvez esse jogo não seja pra você...",
+            "Meu cachorro joga melhor que isso.",
+            "Erro atrás de erro, impressionante!",
+            "Nem com ajuda você conseguiria.",
+            "Uau… isso foi triste de ver.",
+            "Chama isso de esforço?",
+            "Zero reflexos detectados.",
+            "Desiste logo, vai ser menos doloroso.",
+            "Tá difícil até de assistir.",
+            "Skill ausente. Totalmente.",
+            "Você é um bot",
+            "F"
+            ];
             document.addEventListener("mousemove", (event) => {
+                
                 const mouseX = event.clientX;
                 const mouseY = event.clientY;
 
-                console.log(mouseX);
-                console.log(mouseY);
 
                 var runawayDiv = getDivDimensions();
 
                 var distanceToDiv = Math.sqrt((mouseX - runawayDiv[0]) ** 2 + (mouseY - runawayDiv[1]) ** 2);
 
-                var divMoves = distanceToDiv <= runawayDiv[2] ? true : false;
-
+                var divMoves = distanceToDiv <= runawayDiv[2] + 25 ? true : false;
+                
                 if (divMoves) {
-                    shiftDivPosition([mouseX, mouseY], runawayDiv)
+                    i++;
+                    shiftDivPosition([mouseX, mouseY], runawayDiv);
+                    
+                    if (i === 1) {
+                        document.querySelector(".runaway").innerHTML = "Lento demais!"
+                    } else if (i % 50 === 0) {
+                        const tauntRandom = taunts[Math.floor(Math.random() * taunts.length)];
+                        document.querySelector(".runaway").innerHTML = tauntRandom;
+                    }
                 }
 
             })
@@ -72,6 +135,6 @@
     </script>
 </head>
 <body>
-    <div class="runaway"></div>
+    <div class="runaway">Consegue me pegar?</div>
 </body>
 </html>
